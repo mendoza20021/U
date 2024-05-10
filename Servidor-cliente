@@ -1,0 +1,40 @@
+#Importamos la libreria socket
+import socket
+#Creamos el objeto y generara el socket con valoores por default
+s = socket.socket()
+print ("Socket Creado Correctamente")
+port = 12345
+#Establecer la conexión
+
+s.bind( ('localhost' , 12345) )
+print ("Socket esta siendo conectado en el puerto %s" %(port))
+
+    # Esperar conexiones entrantes
+s.listen(5)
+
+print("El servidor está esperando conexiones...")
+
+
+datos = {
+    "2-753-614": "Nicolas Pineda",
+    "2-749-396": "Andy Martinez",
+    "12345": "Alex Hernandez",
+    "123456789": "Roberto H"
+    }
+#Ciclo
+
+while True:
+    conexion,  addr = s.accept()
+    print ("Conexión establecida desde!",addr)
+    
+    cedula = conexion.recv(2048).decode()
+    nombre = datos.get(cedula, "Cedula no encontrada.")
+    conexion.sendall(nombre.encode())
+    
+   #Si la peticion es exit cerramos la conecion y salimos del bucle 
+    if cedula.lower() == 'exit':
+        conexion.close()
+        break
+  
+    #Cerramos la escucha
+    conexion.close()
