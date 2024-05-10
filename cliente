@@ -1,0 +1,17 @@
+import socket
+
+s = socket.socket()
+s.connect (('172.30.154.164', 12345))
+
+while True:
+cedula = input("Ingrese el numero de cedula o exit para sal>
+s.send(cedula.encode())
+ 
+if cedula.lower() =='exit':
+s.close()
+break
+
+respuesta = s.recv(1024).decode()
+print (respuesta)
+
+s.close()
